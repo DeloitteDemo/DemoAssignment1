@@ -21,7 +21,7 @@ public with sharing class NF_ContactTriggerHandler_Sample extends NF_AbstractTri
 
 	}
 
-	public override void afterInsert(){
+	public override void afterInsert(List<SObject> newlstObj){
 
 	}
 
