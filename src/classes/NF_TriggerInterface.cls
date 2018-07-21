@@ -20,7 +20,7 @@ public interface NF_TriggerInterface
 
     void beforeDelete();
 
-    void afterInsert();
+    void afterInsert(List<SObject> newlstObj);
 
     void afterUpdate();
 

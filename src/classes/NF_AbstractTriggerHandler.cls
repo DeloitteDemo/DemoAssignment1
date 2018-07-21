@@ -21,7 +21,7 @@ public with sharing abstract class NF_AbstractTriggerHandler implements NF_Trigg
 
     public virtual void beforeDelete(){}
 
-    public virtual void afterInsert(){}
+    public virtual void afterInsert(List<Account> accounts){}
 
     public virtual void afterUpdate(){}
 
