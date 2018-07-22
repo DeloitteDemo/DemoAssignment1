@@ -23,30 +23,7 @@ public with sharing class NF_AccountTriggerHandler_Sample extends NF_AbstractTri
 
     public override void afterInsert(List<SObject> newlstObj){
 
-   List<Contact> contList = new List<Contact>();
-    
-    // Get the related Contacts for the accounts in this trigger
-    Map<Id,Account> acctsWithCont = new Map<Id,Account>(
-        [SELECT Id,(SELECT Id FROM Contacts) FROM Account WHERE Id IN : (List<Account>)newlstObj]);
-    
-    // Add a Contact for each account if it doesn't already have one.
-    // Iterate through each account.
-    for(Account a : (List<Account>)newlstObj) {
-        
-        // Check if the account already has a related contact.
-        if (acctsWithCont.get(a.Id).Contacts.size() == 0) {
-            // If it doesn't, add a default contact
-          if(a.name!=null){
-            contList.add(new Contact(LastName=a.Name,AccountID=a.id));
-                         }
-        }           
-    }
-    if (contList.size() > 0) {
-        insert contList;
-    }
-
-
-
+      addContactToNewAccount(newlstObj);
     }
 
     public override void afterDelete(){
@@ -54,6 +31,39 @@ public with sharing class NF_AccountTriggerHandler_Sample extends NF_AbstractTri
     }
 
     public override void andFinally(){
+
+    }
+
+     /* private methods */
+
+    private void addContactToNewAccount(List<SObject> newlstObj){
+      List<Contact> contList = new List<Contact>();
+    
+      // Get the related Contacts for the accounts in this trigger
+
+      Map<Id,Account> acctsWithCont = new Map<Id,Account>(
+      [SELECT Id,(SELECT Id FROM Contacts) FROM Account WHERE Id IN : (List<Account>)newlstObj]);
+    
+      // Add a Contact for each account if it doesn't already have one.
+      // Iterate through each account.
+
+       for(Account a : (List<Account>)newlstObj) {
+
+      // Check if the account already has a related contact.
+
+          if (acctsWithCont.get(a.Id).Contacts.size() == 0) {
+
+            // If it doesn't, add a default contact
+            
+            if(a.name!=null){
+               contList.add(new Contact(LastName=a.Name,AccountID=a.id));
+            }
+          }           
+       }
+       if (contList.size() > 0) {
+         insert contList;
+        }
+
 
     }
 }
