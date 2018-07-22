@@ -18,6 +18,7 @@ public without sharing class NF_TriggerFactory {
     static{
         TriggerHandlerMap = new Map<Schema.sObjectType, String>();
         TriggerHandlerMap.put(Contact.sObjectType, 'NF_ContactTriggerHandler_Sample');
+        TriggerHandlerMap.put(Account.sObjectType, 'NF_AccountTriggerHandler_Sample');
     }
     
     /**
@@ -93,7 +94,7 @@ public without sharing class NF_TriggerFactory {
             }
             else if(Trigger.isInsert)
             {
-               handler.afterInsert();
+               handler.afterInsert(trigger.new);
             }
             else if(Trigger.isUpdate)
             {
